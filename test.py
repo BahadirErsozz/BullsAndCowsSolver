@@ -48,12 +48,12 @@ class BullsAndCows:
 
         return numOfExactPlaceMatches, numOfNonPlaceMatches
 
-    def runOneRound(self):
-        highestPossibiltyKey = self.getHighestPossibilityNumber()
-        numOfExactMatches, numOfWrongPlaceMatches = self.findNumberOfMatches(highestPossibiltyKey)
+    def runOneRound(self, highestPossibiltyKey, numOfExactMatches, numOfWrongPlaceMatches):
         self.calculatePossibilities(highestPossibiltyKey, numOfExactMatches, numOfWrongPlaceMatches)
-        return highestPossibiltyKey
 
+    def guessNumber(self):
+        highestPossibiltyKey = self.getHighestPossibilityNumber()
+        return highestPossibiltyKey
     def calculatePossibilities(self, number, numOfExactMatches, numOfWrongPlaceMatches):
         if numOfExactMatches == 0 and numOfWrongPlaceMatches == 0:
             for possibleNumber in self.possibilities:
@@ -315,23 +315,36 @@ def runGame():
     print("found in " + str(counter) +" steps")
     return counter
 
-statistics = {}
+while True:
+    guessed_number = obj.guessNumber()
+    print("guessed " + guessed_number)
+    exact_match = input("Exact match: ")
+    if exact_match == "x":
+        exit(0)
 
-for i in range(20):
-    statistics[i] = 0
+    wrong_place_match = input("Wrong place match: ")
+    if wrong_place_match == "x":
+        exit(0)
 
-for i in range(6000, 7000):
+    obj.runOneRound(guessed_number, int(exact_match), int(wrong_place_match))
 
-    char_seen = []
-    for char in str(i):
-        if char in char_seen:
-            break
-        char_seen.append(char)
-
-    if len(char_seen) == 4:
-        print("step num: " + str(i))
-        obj.initPossibilities()
-        obj.number = str(i)
-        statistics[runGame()] += 1
-
-print(statistics)
+# statistics = {}
+#
+# for i in range(20):
+#     statistics[i] = 0
+#
+# for i in range(6000, 7000):
+#
+#     char_seen = []
+#     for char in str(i):
+#         if char in char_seen:
+#             break
+#         char_seen.append(char)
+#
+#     if len(char_seen) == 4:
+#         print("step num: " + str(i))
+#         obj.initPossibilities()
+#         obj.number = str(i)
+#         statistics[runGame()] += 1
+#
+# print(statistics)
